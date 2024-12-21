@@ -1,0 +1,18 @@
+<div class="container">
+    <form [formGroup]="formRegister" (submit)="submit()">
+        <div class="titleForm">REGISTER</div>
+        <div class="itemForm">
+            <div class="labelForm">Username</div>
+            <input type="text" formControlName="username">
+        </div>
+        <div class="itemForm">
+            <div class="labelForm">Email</div>
+            <input type="text" formControlName="email">
+        </div>
+        <div class="itemForm">
+            <div class="labelForm">Password</div>
+            <input type="text" formControlName="psw">
+        </div>
+    </form>
+</div>
+

@@ -1,0 +1,16 @@
+<div class="container">
+    <form [formGroup]="formLogin" (submit)="submit()">
+        <div class="titleForm">LOGIN</div>
+        <div class="itemForm">
+            <div class="labelForm">Username</div>
+            <input type="text" formControlName="username">
+            <p class="errors" *ngIf="errorUsername">invalid username</p>
+        </div>
+        <div class="itemForm">
+            <div class="labelForm">Password</div>
+            <input type="text" formControlName="psw">
+            <p class="errors" *ngIf="errorPsw">invalid password</p>
+        </div>
+        <button type="submit" [disabled]="!formLogin.valid">Login</button>
+    </form>
+</div>
