@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit{
   errorUsername : boolean = false
   errorPsw : boolean = false
 
-  constructor(private fb : FormBuilder, private authService : AuthService){}
+  constructor(private fb : FormBuilder, private authService : AuthService, private router : Router){}
 
   ngOnInit(): void {
     this.formLogin = this.fb.group({
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit{
   submit(){
     if(this.formLogin.valid){
       this.authService.login(this.formLogin).subscribe({
-        next : (response) => console.log("success", response),
+        next : (response) => this.router.navigate(["/home"]),
         error : (error) => {
           let err = error.error.message
           this.errorUsername = err === "INVALID_USERNAME"

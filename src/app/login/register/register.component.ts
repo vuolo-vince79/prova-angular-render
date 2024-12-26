@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,7 @@ export class RegisterComponent implements OnInit{
   errorEmailExists : boolean = false
   errorPswShort : boolean = false
 
-  constructor(private fb : FormBuilder, private authSercice : AuthService){}
+  constructor(private fb : FormBuilder, private authSercice : AuthService, private router : Router){}
 
   ngOnInit(): void {
     this.formRegister = this.fb.group({
@@ -28,7 +29,7 @@ export class RegisterComponent implements OnInit{
   submit() : void{
     if(this.formRegister.valid){
       this.authSercice.register(this.formRegister).subscribe({
-        next : (resp) => console.log("success", resp),
+        next : (resp) => this.router.navigate(["/login"]),
         error : (error) => {
           let errors = error.error.message
           if(Array.isArray(errors)){
