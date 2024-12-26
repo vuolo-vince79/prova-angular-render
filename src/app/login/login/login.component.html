@@ -8,9 +8,10 @@
         </div>
         <div class="itemForm">
             <div class="labelForm">Password</div>
-            <input type="text" formControlName="psw">
+            <input type="password" formControlName="psw">
             <p class="errors" *ngIf="errorPsw">invalid password</p>
         </div>
         <button type="submit" [disabled]="!formLogin.valid">Login</button>
     </form>
+    <button routerLink="/register">Go to Register</button>
 </div>

@@ -1,18 +1,24 @@
 <div class="container">
     <form [formGroup]="formRegister" (submit)="submit()">
-        <div class="titleForm">REGISTER</div>
+        <div class="titleForm">SIGN UP</div>
         <div class="itemForm">
             <div class="labelForm">Username</div>
             <input type="text" formControlName="username">
+            <p class="errors" *ngIf="errorUsernameExists">username already exists</p>
         </div>
         <div class="itemForm">
             <div class="labelForm">Email</div>
-            <input type="text" formControlName="email">
+            <input type="email" formControlName="email">
+            <p class="errors" *ngIf="errorEmailExists">email already exists</p>
+            <p class="errors" *ngIf="errorEmailInvalid">invalid email format</p>
         </div>
         <div class="itemForm">
             <div class="labelForm">Password</div>
             <input type="text" formControlName="psw">
+            <p class="errors" *ngIf="errorPswShort">short password min 8 character</p>
         </div>
+        <button type="submit" [disabled]="!formRegister.valid">Sign Up</button>
     </form>
+    <button routerLink="/login">Go to Login</button>
 </div>
 

@@ -9,6 +9,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit{
 
   formRegister! : FormGroup
+  errorUsernameExists : boolean = false
+  errorEmailInvalid : boolean = false
+  errorEmailExists : boolean = false
+  errorPswShort : boolean = false
 
   constructor(private fb : FormBuilder){}
 
