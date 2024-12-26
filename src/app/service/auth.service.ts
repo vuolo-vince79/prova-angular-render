@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private readonly url : string = "https://login-jv36.onrender.com"
+  private readonly url : string = "https://login-pr.up.railway.app/"
 
   constructor(private http : HttpClient) { }
 
