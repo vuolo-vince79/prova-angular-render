@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit{
     if(this.formLogin.valid){
       this.authService.login(this.formLogin).subscribe({
         next : (response) => console.log("success", response),
-        error : (err) => console.log("error", err) 
+        error : (err) => console.log("error", err.error) 
       })
     }
   }
