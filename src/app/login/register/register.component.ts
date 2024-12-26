@@ -31,7 +31,15 @@ export class RegisterComponent implements OnInit{
         next : (resp) => console.log("success", resp),
         error : (error) => {
           let errors = error.error.message
-          console.log(errors)
+          if(Array.isArray(errors)){
+            console.log("array di errori", errors)
+          }
+          if(typeof errors === "string"){
+            console.log("stringa unica con typeof", errors)
+          }
+          if(errors instanceof String){
+            console.log("stringa unica con instanceof", errors)
+          }
         }
       })
     }
