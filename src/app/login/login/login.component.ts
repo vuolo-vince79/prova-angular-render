@@ -26,7 +26,11 @@ export class LoginComponent implements OnInit{
   submit(){
     if(this.formLogin.valid){
       this.authService.login(this.formLogin).subscribe({
-        next : (response) => this.router.navigate(["/home"]),
+        next : (response) => {
+          console.log(response)
+          // sessionStorage.setItem("accessToken", response.accessToken)
+          this.router.navigate(["/home"])
+        },
         error : (error) => {
           let err = error.error.message
           this.errorUsername = err === "INVALID_USERNAME"
