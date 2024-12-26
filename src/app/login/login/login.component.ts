@@ -26,7 +26,11 @@ export class LoginComponent implements OnInit{
     if(this.formLogin.valid){
       this.authService.login(this.formLogin).subscribe({
         next : (response) => console.log("success", response),
-        error : (err) => console.log("error", err.error) 
+        error : (error) => {
+          let err = error.error.message
+          this.errorUsername = err === "INVALID_USERNAME"
+          this.errorPsw = err === "INVALID_PSW"
+        }
       })
     }
   }

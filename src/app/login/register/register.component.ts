@@ -32,14 +32,14 @@ export class RegisterComponent implements OnInit{
         error : (error) => {
           let errors = error.error.message
           if(Array.isArray(errors)){
-            console.log("array di errori", errors)
+            this.errorEmailInvalid = errors.includes("INVALID_EMAIL")
+            this.errorPswShort = errors.includes("SHORT_PSW")
           }
           if(typeof errors === "string"){
-            console.log("stringa unica con typeof", errors)
+            this.errorEmailExists = errors === "EXISTS_EMAIL"
+            this.errorUsernameExists = errors === "EXISTS_USERNAME"
           }
-          if(errors instanceof String){
-            console.log("stringa unica con instanceof", errors)
-          }
+          
         }
       })
     }
