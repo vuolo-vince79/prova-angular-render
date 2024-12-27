@@ -30,16 +30,17 @@ export class AuthInterceptor implements HttpInterceptor{
     }
 
     private handle401Error(request : HttpRequest<any>, next : HttpHandler) : Observable<HttpEvent<any>>{
-    
+        console.log("ingresso nel metodo handle401Error")
         return this.authService.refreshAccessToken(this.authService.refreshToken).pipe(
             switchMap((newAccessToken : string) => {
                 this.authService.accessToken = newAccessToken
                 console.log("new accessToken", newAccessToken)
                 const newAuthRequest = request.clone({setHeaders : {Authorization : `Bearer ${newAccessToken}`}})
-
+                console.log("invio nuova richiesta", newAuthRequest)
                 return next.handle(newAuthRequest)
             }),
             catchError(refreshError => {
+                console.log("errore token, qua dovrebbe rimandare al login")
                 this.authService.logout()
                 return throwError(() => refreshError)
             })
