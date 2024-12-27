@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -8,11 +8,15 @@ import { Observable } from 'rxjs';
 export class AdminService {
 
   private readonly url : string = "https://login-pr.up.railway.app"
-  private readonly token : string = sessionStorage.getItem("accessToken") || ""
+  
 
   constructor(private http : HttpClient) { }
 
   getAllUsers() : Observable<any>{
-    return this.http.get(`${this.url}/api/admin`)
+    const token : string = sessionStorage.getItem("accessToken") || ""
+    const headers = new HttpHeaders({
+      Authorization : `Bearer ${token}`
+    })
+    return this.http.get(`${this.url}/api/admin`, {headers})
   }
 }
