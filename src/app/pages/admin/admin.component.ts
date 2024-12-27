@@ -14,7 +14,10 @@ export class AdminComponent{
   constructor(private authService : AuthService, private adminService : AdminService){}
 
   getAllUsers(){
-    this.adminService.getAllUsers()
+    this.adminService.getAllUsers().subscribe({
+      next : (resp) => console.log("success", resp),
+      error : (err) => console.log("error", err)
+    })
   }
 
   logout(){
