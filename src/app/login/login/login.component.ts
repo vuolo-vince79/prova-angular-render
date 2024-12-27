@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit{
           if(!["/admin", "/user"].includes(route)){
             route = ""
           }
+          if(route === "/user") route = "/home"
           
           this.router.navigate([route])
         },
