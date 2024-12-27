@@ -86,8 +86,8 @@ export class AuthService {
   }
 
   refreshAccessToken(refreshToken : string) : Observable<string>{
-    return this.http.post<ApiResponse>(`${this.url}/api/auth/refresh`, {refreshToken}).pipe(
-      map(resp => resp.message.accessToken!)
+    return this.http.post<ApiResponse>(`${this.url}/api/auth/refresh`, refreshToken).pipe(
+      map(resp => resp.message.accessToken)
     )
   }
 
