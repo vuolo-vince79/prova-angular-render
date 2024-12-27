@@ -34,12 +34,12 @@ export class LoginComponent implements OnInit{
           sessionStorage.setItem("accessToken", accessToken)
           sessionStorage.setItem("refreshToken", refreshToken)
           console.log(role, username, accessToken, refreshToken)
-          let route = ""
-          if(role !== ""){
-            if((role as string).toLowerCase()  === "admin") route = (role as string)
-            else if((role as string).toLowerCase()  === "user") route = (role as string)
+          let route = "/" + (role as string).toLowerCase()
+          if(!["/admin", "/user"].includes(route)){
+            route = ""
           }
-          this.router.navigate(["/" + route])
+          
+          this.router.navigate([route])
         },
         error : (error) => {
           let err = error.error.message
