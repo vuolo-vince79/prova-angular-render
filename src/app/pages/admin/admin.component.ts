@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
+import { AdminService } from '../../service/admin.service';
 
 @Component({
   selector: 'app-admin',
@@ -10,7 +11,11 @@ export class AdminComponent{
 
   username : string | null = this.authService.getUsername()
 
-  constructor(private authService : AuthService){}
+  constructor(private authService : AuthService, private adminService : AdminService){}
+
+  getAllUsers(){
+    this.adminService.getAllUsers()
+  }
 
   logout(){
     this.authService.logout()
