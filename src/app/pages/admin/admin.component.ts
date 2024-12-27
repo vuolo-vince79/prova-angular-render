@@ -1,10 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  styleUrls: ['./admin.component.css']
 })
-export class AdminComponent {
+export class AdminComponent{
+
+  username : string | null = this.authService.getUsername()
+
+  constructor(private authService : AuthService){}
+
+  logout(){
+    this.authService.logout()
+  }
 
 }

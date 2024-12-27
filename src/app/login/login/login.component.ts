@@ -27,13 +27,11 @@ export class LoginComponent implements OnInit{
     if(this.formLogin.valid){
       this.authService.login(this.formLogin).subscribe({
         next : (response) => {
-          console.log(response)
           const {accessToken, refreshToken, role, username} = response.message
           this.authService.setRole(role)
           this.authService.setUsername(username)
           sessionStorage.setItem("accessToken", accessToken)
           sessionStorage.setItem("refreshToken", refreshToken)
-          console.log(role, username, accessToken, refreshToken)
           let route = "/" + (role as string).toLowerCase()
           if(!["/admin", "/user"].includes(route)){
             route = ""

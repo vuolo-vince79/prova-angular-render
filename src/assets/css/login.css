@@ -25,6 +25,8 @@ form{
 }
 
 .errors{
+    font-size: 10px;
+    color: red;
     position: absolute;
     top: 105%;
     left: 5px;

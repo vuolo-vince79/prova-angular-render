@@ -32,6 +32,10 @@ export class RegisterComponent implements OnInit{
         next : (resp) => this.router.navigate(["/login"]),
         error : (error) => {
           let errors = error.error.message
+          this.errorEmailInvalid = false
+          this.errorPswShort = false
+          this.errorEmailExists = false
+          this.errorUsernameExists = false
           if(Array.isArray(errors)){
             this.errorEmailInvalid = errors.includes("INVALID_EMAIL")
             this.errorPswShort = errors.includes("SHORT_PSW")
