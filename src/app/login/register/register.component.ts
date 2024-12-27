@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit{
   errorEmailInvalid : boolean = false
   errorEmailExists : boolean = false
   errorPswShort : boolean = false
+  spinner : boolean = false
 
   constructor(private fb : FormBuilder, private authSercice : AuthService, private router : Router){}
 
@@ -28,8 +29,12 @@ export class RegisterComponent implements OnInit{
 
   submit() : void{
     if(this.formRegister.valid){
+      this.spinner = true
       this.authSercice.register(this.formRegister).subscribe({
-        next : (resp) => this.router.navigate(["/login"]),
+        next : (resp) => {
+          this.spinner = false
+          this.router.navigate(["/login"])
+        },
         error : (error) => {
           let errors = error.error.message
           this.errorEmailInvalid = false
@@ -44,7 +49,7 @@ export class RegisterComponent implements OnInit{
             this.errorEmailExists = errors === "EXISTS_EMAIL"
             this.errorUsernameExists = errors === "EXISTS_USERNAME"
           }
-          
+          this.spinner = false
         }
       })
     }

@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit{
   formLogin! : FormGroup
   errorUsername : boolean = false
   errorPsw : boolean = false
+  spinner : boolean = false
 
   constructor(private fb : FormBuilder, private authService : AuthService, private router : Router){}
 
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit{
   }
 
   submit(){
+    this.spinner = true
     if(this.formLogin.valid){
       this.authService.login(this.formLogin).subscribe({
         next : (response) => {
@@ -39,13 +41,14 @@ export class LoginComponent implements OnInit{
             route = ""
           }
           if(route === "/user") route = "/home"
-          
+          this.spinner = false
           this.router.navigate([route])
         },
         error : (error) => {
           let err = error.error.message
           this.errorUsername = err === "INVALID_USERNAME"
           this.errorPsw = err === "INVALID_PSW"
+          this.spinner = false
         }
       })
     }
