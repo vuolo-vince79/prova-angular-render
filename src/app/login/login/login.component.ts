@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit{
             if((role as string).toLowerCase()  === "admin") route = (role as string)
             else if((role as string).toLowerCase()  === "user") route = (role as string)
           }
-          this.router.navigate([route])
+          this.router.navigate(["/" + route])
         },
         error : (error) => {
           let err = error.error.message

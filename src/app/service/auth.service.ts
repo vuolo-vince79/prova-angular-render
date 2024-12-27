@@ -35,6 +35,10 @@ export class AuthService {
     return this.http.post(`${this.url}/login`, body.value)
   }
 
+  isAuthenticated(role : string) : boolean{
+    return this.getRole() === role && this.getUsername() !== null
+  }
+
   register(body : FormGroup) : Observable<any>{
     return this.http.post(`${this.url}/register`, body.value)
   }
