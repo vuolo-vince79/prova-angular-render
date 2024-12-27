@@ -10,8 +10,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AuthService {
 
   private readonly url : string = "https://login-pr.up.railway.app"
-  private role : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
-  private username : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
+  private sessionRole : string | null = sessionStorage.getItem("role") || null
+  private sessionUsername : string | null = sessionStorage.getItem("username") || null
+  private role : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(this.sessionRole)
+  private username : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(this.sessionUsername)
 
   constructor(private http : HttpClient, private router : Router) { }
 

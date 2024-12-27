@@ -32,6 +32,8 @@ export class LoginComponent implements OnInit{
           this.authService.setUsername(username)
           sessionStorage.setItem("accessToken", accessToken)
           sessionStorage.setItem("refreshToken", refreshToken)
+          sessionStorage.setItem("role", role)
+          sessionStorage.setItem("username", username)
           let route = "/" + (role as string).toLowerCase()
           if(!["/admin", "/user"].includes(route)){
             route = ""
