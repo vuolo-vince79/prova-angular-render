@@ -30,12 +30,10 @@ export class LoginComponent implements OnInit{
       this.authService.login(this.formLogin).subscribe({
         next : (response) => {
           const {accessToken, refreshToken, role, username} = response.message
-          this.authService.setRole(role)
-          this.authService.setUsername(username)
-          sessionStorage.setItem("accessToken", accessToken)
-          sessionStorage.setItem("refreshToken", refreshToken)
-          sessionStorage.setItem("role", role)
-          sessionStorage.setItem("username", username)
+          this.authService.role = role
+          this.authService.username = username
+          this.authService.accessToken = accessToken
+          this.authService.refreshToken = refreshToken
           let route = "/" + (role as string).toLowerCase()
           if(!["/admin", "/user"].includes(route)){
             route = ""

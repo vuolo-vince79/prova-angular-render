@@ -2,7 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+
+interface ApiResponse{
+  message : {
+    accessToken : string,
+    refreshToken : string,
+    role : string,
+    username : string
+  },
+  success : boolean
+}
 
 @Injectable({
   providedIn: 'root'
@@ -10,27 +20,57 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AuthService {
 
   private readonly url : string = "https://login-pr.up.railway.app"
-  private sessionRole : string | null = sessionStorage.getItem("role") || null
-  private sessionUsername : string | null = sessionStorage.getItem("username") || null
-  private role : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(this.sessionRole)
-  private username : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(this.sessionUsername)
+  private readonly accessTokenStorageKey = "accessToken"
+  private readonly refreshTokenStorageKey = "refreshToken"
+  private readonly roleStorageKey = "role"
+  private readonly usernameStorageKey = "username"
+  private storageRole : string | null = sessionStorage.getItem(this.roleStorageKey) || null
+  private storageUsername : string | null = sessionStorage.getItem(this.usernameStorageKey) || null
+  private roleBS : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(this.storageRole)
+  private usernameBS : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(this.storageUsername)
 
   constructor(private http : HttpClient, private router : Router) { }
 
-  getRole() : string | null{
-    return this.role.getValue()
+  private getSessionStorage(key : string) : string | null{
+    return sessionStorage.getItem(key)
   }
 
-  setRole(role : string | null) : void{
-    this.role.next(role)
+  private setSessionStorage(key : string, value : string) : void{
+    sessionStorage.setItem(key, value)
   }
 
-  getUsername() : string | null{
-    return this.username.getValue()
+  get accessToken() : string{
+    return this.getSessionStorage(this.accessTokenStorageKey) || ""
   }
 
-  setUsername(username : string | null) : void{
-    this.username.next(username)
+  set accessToken(token : string){
+    this.setSessionStorage(this.accessTokenStorageKey, token)
+  }
+
+  get refreshToken() : string{
+    return this.getSessionStorage(this.refreshTokenStorageKey) || ""
+  }
+
+  set refreshToken(token : string){
+    this.setSessionStorage(this.refreshTokenStorageKey, token)
+  }
+
+  get role() : string | null{
+    return this.roleBS.getValue()
+  }
+
+  set role(role : string | null){
+    this.roleBS.next(role)
+    if(role) this.setSessionStorage(this.roleStorageKey, role)
+  }
+
+  get username() : string | null{
+    return this.usernameBS.getValue()
+  }
+
+  set username(username : string | null){
+    this.usernameBS.next(username)
+    if(username) this.setSessionStorage(this.usernameStorageKey, username)
   }
 
   login(body : FormGroup) : Observable<any>{
@@ -38,16 +78,22 @@ export class AuthService {
   }
 
   isAuthenticated(role : string) : boolean{
-    return this.getRole() === role && this.getUsername() !== null
+    return this.role === role && this.username !== null
   }
 
   register(body : FormGroup) : Observable<any>{
     return this.http.post(`${this.url}/register`, body.value)
   }
 
+  refreshAccessToken(refreshToken : string) : Observable<string>{
+    return this.http.post<ApiResponse>(`${this.url}/api/auth/refresh`, {refreshToken}).pipe(
+      map(resp => resp.message.accessToken!)
+    )
+  }
+
   logout() : void{
-    this.setRole(null)
-    this.setUsername(null)
+    this.role = null
+    this.username = null
     sessionStorage.clear()
     this.router.navigate(["/login"])
   }
