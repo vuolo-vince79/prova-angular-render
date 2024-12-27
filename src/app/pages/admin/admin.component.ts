@@ -25,7 +25,7 @@ export class AdminComponent{
   }
 
   getUserById(){
-    const userId = Math.random() * this.userCount + 1
+    const userId = Math.floor(Math.random() * this.userCount) + 1
     this.adminService.getUserById(userId).subscribe({
       next : (resp) => console.log("user trovato", resp),
       error : (err) => console.log(err)
