@@ -11,24 +11,37 @@ export class AdminComponent{
 
   username : string | null = this.authService.getUsername()
   userCount : number = 1
+  spinner : boolean = false
 
   constructor(private authService : AuthService, private adminService : AdminService){}
 
   getAllUsers(){
+    this.spinner = true
     this.adminService.getAllUsers().subscribe({
       next : (resp) => {
         this.userCount = resp.length
         console.log("success", this.userCount, resp)
+        this.spinner = false
       },
-      error : (err) => console.log("error", err)
+      error : (err) => {
+        console.log("error", err)
+        this.spinner = false
+      }
     })
   }
 
   getUserById(){
+    this.spinner = true
     const userId = Math.floor(Math.random() * this.userCount) + 1
     this.adminService.getUserById(userId).subscribe({
-      next : (resp) => console.log("user trovato", resp),
-      error : (err) => console.log(err)
+      next : (resp) => {
+        console.log("user trovato", resp)
+        this.spinner = false
+      },
+      error : (err) => {
+        console.log(err)
+        this.spinner = false
+      }
     })
   }
 

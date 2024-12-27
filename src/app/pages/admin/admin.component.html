@@ -2,3 +2,6 @@
 <button (click)="getAllUsers()">Get All Users</button>
 <button (click)="getUserById()">Get User By ID</button>
 <button (click)="logout()">Logout</button>
+<div *ngIf="spinner">
+    <img src="../../../assets/img/spinner.gif">
+</div>
