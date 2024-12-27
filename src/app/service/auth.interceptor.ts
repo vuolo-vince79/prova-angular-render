@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor{
         // Passiamo la richiesta clonata al prossimo handler
         return next.handle(authRequest).pipe(
             catchError((error : HttpErrorResponse) => {
-                if(error.status === 401){
+                if(error.status === 401 || error.status === 403){
                     return this.handle401Error(authRequest, next)
                 }
                 return throwError(() => error)
