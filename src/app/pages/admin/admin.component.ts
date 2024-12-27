@@ -9,7 +9,7 @@ import { AdminService } from '../../service/admin.service';
 })
 export class AdminComponent{
 
-  username : string | null = this.authService.getUsername()
+  username : string | null = this.authService.username
   userCount : number = 1
   spinner : boolean = false
 

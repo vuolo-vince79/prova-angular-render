@@ -8,7 +8,7 @@ import { AuthService } from '../../service/auth.service';
 })
 export class HomeComponent {
 
-  username : string | null = this.authService.getUsername()
+  username : string | null = this.authService.username
 
   constructor(private authService : AuthService){}
   
