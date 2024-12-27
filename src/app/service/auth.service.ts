@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
@@ -9,16 +10,24 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class AuthService {
 
   private readonly url : string = "https://login-pr.up.railway.app"
-  private role : BehaviorSubject<string> = new BehaviorSubject<string>("")
-  private username : BehaviorSubject<string> = new BehaviorSubject<string>("")
+  private role : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
+  private username : BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient, private router : Router) { }
 
-  setRole(role : string){
+  getRole() : string | null{
+    return this.role.getValue()
+  }
+
+  setRole(role : string | null) : void{
     this.role.next(role)
   }
 
-  setUsername(username : string){
+  getUsername() : string | null{
+    return this.username.getValue()
+  }
+
+  setUsername(username : string | null) : void{
     this.username.next(username)
   }
 
@@ -28,5 +37,12 @@ export class AuthService {
 
   register(body : FormGroup) : Observable<any>{
     return this.http.post(`${this.url}/register`, body.value)
+  }
+
+  logout() : void{
+    this.setRole(null)
+    this.setUsername(null)
+    sessionStorage.clear()
+    this.router.navigate(["/login"])
   }
 }
