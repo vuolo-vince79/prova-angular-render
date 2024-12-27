@@ -8,15 +8,25 @@ import { Observable } from 'rxjs';
 export class AdminService {
 
   private readonly url : string = "https://login-pr.up.railway.app"
-  
+  private readonly accessTokenStorageKey = "accessToken"
+  private readonly refreshTokenStorageKey = "refreshToken"
 
   constructor(private http : HttpClient) { }
 
-  getAllUsers() : Observable<any>{
-    const token : string = sessionStorage.getItem("accessToken") || ""
-    const headers = new HttpHeaders({
+  setHeader(storageKey : string) : HttpHeaders{
+    const token : string = sessionStorage.getItem(storageKey) || ""
+    return new HttpHeaders({
       Authorization : `Bearer ${token}`
     })
+  }
+
+  getAllUsers() : Observable<any>{
+    const headers = this.setHeader(this.accessTokenStorageKey)
     return this.http.get(`${this.url}/api/admin`, {headers})
+  }
+
+  getUserById(id : number) : Observable<any>{
+    const headers = this.setHeader(this.accessTokenStorageKey)
+    return this.http.get(`${this.url}/api/admin/${id}`, {headers})
   }
 }
