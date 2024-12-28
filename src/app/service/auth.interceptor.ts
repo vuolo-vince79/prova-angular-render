@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, Observable, switchMap, throwError } from "rxjs";
+import { catchError, concatMap, Observable, switchMap, throwError } from "rxjs";
 import { AuthService } from "./auth.service";
 
 @Injectable()
@@ -32,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor{
     private handle401Error(request : HttpRequest<any>, next : HttpHandler) : Observable<HttpEvent<any>>{
         console.log("ingresso nel metodo handle401Error")
         return this.authService.refreshAccessToken(this.authService.refreshToken).pipe(
-            switchMap((newAccessToken : string) => {
+            concatMap((newAccessToken : string) => {
                 this.authService.accessToken = newAccessToken
                 console.log("new accessToken", newAccessToken)
                 const newAuthRequest = request.clone({setHeaders : {Authorization : `Bearer ${newAccessToken}`}})

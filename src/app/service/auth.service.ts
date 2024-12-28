@@ -87,7 +87,9 @@ export class AuthService {
 
   refreshAccessToken(refreshToken : string) : Observable<string>{
     return this.http.post<ApiResponse>(`${this.url}/api/auth/refresh`, null,
-      {headers : {"Authorization" : `Bearer ${refreshToken}`}}).pipe(
+      {
+        headers : {"Authorization" : `Bearer ${refreshToken}`}
+      }).pipe(
       map(resp => {
         console.log("risposta richiesta nuovo refresh token", resp)
         return resp.message.accessToken
