@@ -13,9 +13,9 @@ export class AuthInterceptor implements HttpInterceptor{
         const accessToken = this.authService.accessToken
         console.log("primo token", accessToken)
         // Aggiungiamo l'header Authorization solo se abbiamo un token
-        const authRequest = accessToken ? request.clone({
+        const authRequest = request.clone({
             setHeaders : {Authorization : `Bearer ${accessToken}`}
-        }) : request
+        })
         
         // Passiamo la richiesta clonata al prossimo handler
         return next.handle(authRequest).pipe(
