@@ -86,10 +86,15 @@ export class AuthService {
   }
 
   refreshAccessToken(refreshToken : string) : Observable<string>{
+    console.log("ingresso chiamata del metodo refreshAccessTocken")
     return this.http.post<ApiResponse>(`${this.url}/api/auth/refresh`, refreshToken).pipe(
       map(resp => {
         console.log("risposta richiesta nuovo refresh token", resp)
         return resp.message.accessToken
+      }),
+      catchError(err => {
+        console.error("errore nel reperire nuovo token", err)
+        return throwError(() => new Error("errore nuovo yoken"))
       })
     )
   }
