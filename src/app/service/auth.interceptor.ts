@@ -6,6 +6,7 @@ import { AuthService } from "./auth.service";
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor{
 
+    private tokenRequest : string | null = null
     private isRequest = false
 
     constructor(private authService : AuthService){}
@@ -16,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor{
         //     return next.handle(request)
         // }
 
-        const accessToken = this.authService.accessToken
+        const accessToken = this.tokenRequest ? this.tokenRequest : this.authService.accessToken
         console.log("primo token", accessToken)
         // Aggiungiamo l'header Authorization solo se abbiamo un token
         const authRequest = accessToken ? request.clone({
@@ -42,12 +43,12 @@ export class AuthInterceptor implements HttpInterceptor{
             return next.handle(request)
         }
         this.isRequest = true
-        const refreshToken = this.authService.refreshToken
-        if(!refreshToken){
+        this.tokenRequest = this.authService.refreshToken
+        if(!this.tokenRequest){
             this.authService.logout()
             return throwError(() => new Error("refreshtoken non presente in session storage"))
         }
-        const refreshRequest = request.clone({setHeaders : {Authorization : `Bearer ${refreshToken}`}})
+        const refreshRequest = request.clone({setHeaders : {Authorization : `Bearer ${this.tokenRequest}`}})
         console.log("richiesta aggiornat acol refresh token", refreshRequest)
         return this.authService.refreshAccessToken(this.authService.refreshToken).pipe(
             switchMap((newAccessToken : string) => {
@@ -64,6 +65,7 @@ export class AuthInterceptor implements HttpInterceptor{
             }),
             finalize(() => {
                 this.isRequest = false
+                this.tokenRequest = null
             })
         )
     }
