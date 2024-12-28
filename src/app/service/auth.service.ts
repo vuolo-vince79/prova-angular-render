@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, concatMap, map, Observable, throwError } from 'rxjs';
 
 interface ApiResponse{
   message : {
@@ -86,7 +86,7 @@ export class AuthService {
   }
 
   refreshAccessToken(refreshToken : string) : Observable<string>{
-    return this.http.post<ApiResponse>(`${this.url}/api/auth/refresh`, refreshToken).pipe(
+    return this.http.post<ApiResponse>(`${this.url}/api/auth/refresh`, {refreshToken}).pipe(
       map(resp => {
         console.log("risposta richiesta nuovo refresh token", resp)
         return resp.message.accessToken
