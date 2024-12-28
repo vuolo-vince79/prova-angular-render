@@ -1,10 +1,12 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, concatMap, Observable, repeat, switchMap, throwError } from "rxjs";
+import { catchError, concatMap, finalize, Observable, repeat, switchMap, throwError } from "rxjs";
 import { AuthService } from "./auth.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor{
+
+    private isRequest = false
 
     constructor(private authService : AuthService){}
 
@@ -35,6 +37,11 @@ export class AuthInterceptor implements HttpInterceptor{
 
     private handle401Error(request : HttpRequest<any>, next : HttpHandler) : Observable<HttpEvent<any>>{
         console.log("ingresso nel metodo handle401Error")
+        if(this.isRequest){
+            console.log("richiesta in corso")
+            return next.handle(request)
+        }
+        this.isRequest = true
         const refreshToken = this.authService.refreshToken
         if(!refreshToken){
             this.authService.logout()
@@ -53,6 +60,9 @@ export class AuthInterceptor implements HttpInterceptor{
                 console.log("errore token, qua dovrebbe rimandare al login")
                 this.authService.logout()
                 return throwError(() => refreshError)
+            }),
+            finalize(() => {
+                this.isRequest = false
             })
         )
     }
