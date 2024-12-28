@@ -48,6 +48,7 @@ export class AuthInterceptor implements HttpInterceptor{
             return throwError(() => new Error("refreshtoken non presente in session storage"))
         }
         const refreshRequest = request.clone({setHeaders : {Authorization : `Bearer ${refreshToken}`}})
+        console.log("richiesta aggiornat acol refresh token", refreshRequest)
         return this.authService.refreshAccessToken(this.authService.refreshToken).pipe(
             switchMap((newAccessToken : string) => {
                 this.authService.accessToken = newAccessToken
