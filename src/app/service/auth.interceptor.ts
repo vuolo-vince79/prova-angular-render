@@ -26,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor{
             catchError((error : HttpErrorResponse) => {
                 if(error.status === 401 || error.status === 403){
                     console.log("errore intercettato", error.status)
-                    return this.handle401Error(authRequest, next)
+                    return this.handle401Error(request, next)
                 }
                 return throwError(() => error)
             })
@@ -35,6 +35,12 @@ export class AuthInterceptor implements HttpInterceptor{
 
     private handle401Error(request : HttpRequest<any>, next : HttpHandler) : Observable<HttpEvent<any>>{
         console.log("ingresso nel metodo handle401Error")
+        const refreshToken = this.authService.refreshToken
+        if(!refreshToken){
+            this.authService.logout()
+            return throwError(() => new Error("refreshtoken non presente in session storage"))
+        }
+        const refreshRequest = request.clone({setHeaders : {Authorization : `Bearer ${refreshToken}`}})
         return this.authService.refreshAccessToken(this.authService.refreshToken).pipe(
             switchMap((newAccessToken : string) => {
                 this.authService.accessToken = newAccessToken
