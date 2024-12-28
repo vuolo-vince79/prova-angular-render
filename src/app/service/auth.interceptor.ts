@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { catchError, concatMap, Observable, switchMap, throwError } from "rxjs";
+import { catchError, concatMap, Observable, repeat, switchMap, throwError } from "rxjs";
 import { AuthService } from "./auth.service";
 
 @Injectable()
@@ -10,16 +10,16 @@ export class AuthInterceptor implements HttpInterceptor{
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        if(request.url.includes("/api/auth/register")){
-            return next.handle(request)
-        }
+        // if(request.url.includes("/api/auth/register")){
+        //     return next.handle(request)
+        // }
 
         const accessToken = this.authService.accessToken
         console.log("primo token", accessToken)
         // Aggiungiamo l'header Authorization solo se abbiamo un token
-        const authRequest = request.clone({
+        const authRequest = accessToken ? request.clone({
             setHeaders : {Authorization : `Bearer ${accessToken}`}
-        })
+        }) : request
         
         // Passiamo la richiesta clonata al prossimo handler
         return next.handle(authRequest).pipe(
