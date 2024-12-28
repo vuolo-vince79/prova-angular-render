@@ -10,6 +10,10 @@ export class AuthInterceptor implements HttpInterceptor{
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+        if(request.url.includes("/api/auth/register")){
+            return next.handle(request)
+        }
+
         const accessToken = this.authService.accessToken
         console.log("primo token", accessToken)
         // Aggiungiamo l'header Authorization solo se abbiamo un token
