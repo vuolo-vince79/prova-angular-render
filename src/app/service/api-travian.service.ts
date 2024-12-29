@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class ApiTravianService {
 
   private readonly apiUrl : string = "https://login-pr.up.railway.app"
-  private readonly tkUrl : string = "https://com1.kingdoms.com"
+  private readonly tkUrl : string = "https://it1n.kingdoms.com"
 
   constructor(private http : HttpClient) { }
 
