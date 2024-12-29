@@ -10,7 +10,7 @@ import { AdminService } from '../../service/admin.service';
 export class AdminComponent{
 
   username : string | null = this.authService.username
-  userCount : number = 1
+  userCount : number = 5
   spinner : boolean = false
 
   constructor(private authService : AuthService, private adminService : AdminService){}
@@ -19,7 +19,7 @@ export class AdminComponent{
     this.spinner = true
     this.adminService.getAllUsers().subscribe({
       next : (resp) => {
-        this.userCount = resp.length
+        // this.userCount = resp.length
         console.log("success", this.userCount, resp)
         this.spinner = false
       },
@@ -32,8 +32,8 @@ export class AdminComponent{
 
   getUserById(){
     this.spinner = true
-    const userId = Math.floor(Math.random() * this.userCount) + 1
-    this.adminService.getUserById(userId).subscribe({
+    // const userId = Math.floor(Math.random() * this.userCount) + 1
+    this.adminService.getUserById(this.userCount).subscribe({
       next : (resp) => {
         console.log("user trovato", resp)
         this.spinner = false
