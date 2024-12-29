@@ -8,20 +8,12 @@ import { Observable } from 'rxjs';
 })
 export class ApiTravianService {
 
-  apiUrl : string = 'https://cz4.kingdoms.com/api/external.php?action=requestApiKey'
-
-  private data = {
-    email: 'vuolo.vince@outlook.com',
-    siteName: 'prova-angular-render',
-    siteUrl: 'https://prova-angular-render.onrender.com',
-    isPublic: true
-  };
+  private readonly url : string = "https://login-pr.up.railway.app"
 
   constructor(private http : HttpClient) { }
 
-  
 
   getApiKey() : Observable<any>{
-    return this.http.post(this.apiUrl, this.data)
+    return this.http.get(`${this.url}/travian`)
   }
 }
