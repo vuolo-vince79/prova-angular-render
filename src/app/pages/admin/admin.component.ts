@@ -46,7 +46,7 @@ export class AdminComponent implements OnInit{
         this.totalPages = Math.ceil(resp.length / this.rowsPerPage)
         this.setDisplayedUsers()
         this.arrayPages = Array(this.totalPages).fill(0).map((el, i) => i + 1)
-        this.showButtonArray = this.arrayPages.slice(0, 2)
+        this.showButtonArray = this.arrayPages.slice(0, 3)
         this.spinner = false
       },
       error : (err) => {
@@ -59,6 +59,7 @@ export class AdminComponent implements OnInit{
     if(this.currentPage - 1 >= 1){
       this.currentPage--
       this.setDisplayedUsers()
+      this.setShowButtonArray()
     }
   }
 
@@ -66,12 +67,15 @@ export class AdminComponent implements OnInit{
     if(this.currentPage + 1 <= this.totalPages){
       this.currentPage++
       this.setDisplayedUsers()
+      this.setShowButtonArray()
     }
   }
 
-  setArrayPages(){
+  setShowButtonArray(){
     if(this.currentPage > 2){
-
+      const startIndex = this.currentPage - 1
+      const endIndex = startIndex + 3
+      this.showButtonArray = this.arrayPages.slice(startIndex, endIndex)
     }
   }
 
