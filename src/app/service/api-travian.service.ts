@@ -14,6 +14,6 @@ export class ApiTravianService {
 
 
   getApiKey() : Observable<any>{
-    return this.http.get(`${this.url}/travian`)
+    return this.http.post(`${this.url}/travian`, null)
   }
 }
