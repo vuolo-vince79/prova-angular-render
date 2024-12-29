@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, concatMap, map, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, concatMap, map, Observable, of, throwError } from 'rxjs';
 
 interface ApiResponse{
   message : {
@@ -101,10 +101,18 @@ export class AuthService {
 
   logout() : Observable<any>{
     const username = this.username
-    return this.http.post(`${this.url}/logout`, username)
-    this.role = null
-    this.username = null
-    sessionStorage.clear()
-    this.router.navigate(["/login"])
+    return this.http.post(`${this.url}/logout`, username).pipe(
+      map(resp => {
+        console.log("response", resp)
+        this.role = null
+        this.username = null
+        sessionStorage.clear()
+        this.router.navigate(["/login"])
+      }),
+      catchError(err => {
+        console.log("errore logout", err)
+        return of(null)
+      })
+    )
   }
 }

@@ -49,16 +49,7 @@ export class AdminComponent{
   }
 
   logout(){
-    this.authService.logout().subscribe({
-      next : resp => {
-        console.log(resp)
-        this.authService.role = null
-        this.authService.username = null
-        sessionStorage.clear()
-        this.router.navigate(["/login"])
-      },
-      error : err => console.log("errore logout", err)
-    })
+    this.authService.logout()
   }
 
 }
