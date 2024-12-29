@@ -5,7 +5,29 @@
     [ngStyle]="{position : 'absolute', top : '50%', left : '50%', transform : 'translate(-50%, -50%)'}">
     <img src="../../../assets/img/loading.gif">
 </div>
-<div *ngIf="showUsers">
+<table *ngIf="showUsers">
+    <thead>
+        <tr>
+            <th>ID User</th>
+            <th>Username</th>
+            <th>Enail</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Token</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{user.idUser}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.psw}}</td>
+            <td>{{user.ruolo}}</td>
+            <td>{{user.refreshToken}}</td>
+        </tr>
+    </tbody>
+</table>
+<!-- <div *ngIf="showUsers">
     <div *ngFor="let user of users">
         <div>ID: {{user.idUser}}</div>
         <div>Username: {{user.username}}</div>
@@ -14,4 +36,4 @@
         <div>Role: {{user.ruolo}}</div>
         <div>Token: {{user.refreshToken}}</div>
     </div>
-</div>
+</div> -->
