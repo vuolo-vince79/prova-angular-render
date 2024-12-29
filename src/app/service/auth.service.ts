@@ -99,20 +99,20 @@ export class AuthService {
     )
   }
 
-  logout() : Observable<any>{
+  logout() {
     const username = this.username
-    return this.http.post(`${this.url}/logout`, username).pipe(
-      map(resp => {
+    this.http.post(`${this.url}/logout`, username).subscribe({
+      next : resp => {
         console.log("response", resp)
         this.role = null
         this.username = null
         sessionStorage.clear()
         this.router.navigate(["/login"])
-      }),
-      catchError(err => {
+      },
+      error : err => {
         console.log("errore logout", err)
         return of(null)
-      })
+      }}
     )
   }
 }
