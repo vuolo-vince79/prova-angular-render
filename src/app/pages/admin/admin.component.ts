@@ -2,35 +2,49 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { AdminService } from '../../service/admin.service';
 import { Router } from '@angular/router';
+import { catchError, map, of } from 'rxjs';
+
+interface User{
+  idUser : number,
+  username : string,
+  email : string,
+  psw : string
+  role : string,
+  refreshToken : string
+}
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent{
+export class AdminComponent implements OnInit{
 
   username : string | null = this.authService.username
   userCount : number = 5
   spinner : boolean = false
+  users : User[] = []
+  showUsers : boolean = false
 
   constructor(private authService : AuthService, 
     private adminService : AdminService,
     private router : Router){}
 
-  getAllUsers(){
+  ngOnInit(): void {
     this.spinner = true
     this.adminService.getAllUsers().subscribe({
-      next : (resp) => {
-        // this.userCount = resp.length
-        console.log("success", this.userCount, resp)
+      next : (resp : []) => {
+        this.users = resp
         this.spinner = false
       },
       error : (err) => {
-        console.log("error", err)
-        this.spinner = false
+        console.log("errore reperimento dati", err)
       }
     })
+  }
+
+  getAllUsers(){
+    this.showUsers = true
   }
 
   getUserById(){
