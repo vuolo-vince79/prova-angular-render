@@ -28,6 +28,7 @@
     </tbody>
 </table>
 <button (click)="prevPage()" [disabled]="currentPage <= 1">Previous Page</button>
+<button *ngFor="let page of showButtonArray">{{page}}</button>
 <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Next Page</button>
 <!-- <div *ngIf="showUsers">
     <div *ngFor="let user of users">

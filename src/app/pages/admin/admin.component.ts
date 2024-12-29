@@ -25,6 +25,8 @@ export class AdminComponent implements OnInit{
   spinner : boolean = false
   users : User[] = []
   displayedUsers : User[] = []
+  arrayPages : number[] = []
+  showButtonArray : number[] = []
   currentPage : number = 1
   rowsPerPage : number = 2
   totalRecords : number = 0
@@ -43,6 +45,8 @@ export class AdminComponent implements OnInit{
         this.totalRecords = resp.length
         this.totalPages = Math.ceil(resp.length / this.rowsPerPage)
         this.setDisplayedUsers()
+        this.arrayPages = Array(this.totalPages).fill(0).map((el, i) => i + 1)
+        this.showButtonArray = this.arrayPages.slice(0, 2)
         this.spinner = false
       },
       error : (err) => {
@@ -62,6 +66,12 @@ export class AdminComponent implements OnInit{
     if(this.currentPage + 1 <= this.totalPages){
       this.currentPage++
       this.setDisplayedUsers()
+    }
+  }
+
+  setArrayPages(){
+    if(this.currentPage > 2){
+
     }
   }
 

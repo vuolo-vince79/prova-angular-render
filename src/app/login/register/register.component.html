@@ -14,7 +14,7 @@
         </div>
         <div class="itemForm">
             <div class="labelForm">Password</div>
-            <input type="text" formControlName="psw">
+            <input type="password" formControlName="psw">
             <p class="errors" *ngIf="errorPswShort">short password min 8 character</p>
         </div>
         <button type="submit" [disabled]="!formRegister.valid">Sign Up</button>
