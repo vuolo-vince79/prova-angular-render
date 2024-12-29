@@ -8,12 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class ApiTravianService {
 
-  private readonly url : string = "https://login-pr.up.railway.app"
+  private readonly apiUrl : string = "https://login-pr.up.railway.app"
+  private readonly tkUrl : string = "https://com1.kingdoms.com"
 
   constructor(private http : HttpClient) { }
 
 
   getApiKey() : Observable<any>{
-    return this.http.post(`${this.url}/travian`, null)
+    return this.http.post(`${this.apiUrl}/travian`, this.tkUrl)
   }
 }
