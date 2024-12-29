@@ -9,7 +9,7 @@ interface User{
   username : string,
   email : string,
   psw : string
-  role : string,
+  ruolo : string,
   refreshToken : string
 }
 
@@ -33,8 +33,8 @@ export class AdminComponent implements OnInit{
   ngOnInit(): void {
     this.spinner = true
     this.adminService.getAllUsers().subscribe({
-      next : (resp : []) => {
-        this.users = resp
+      next : (resp : User[]) => {
+        this.users = resp.sort((a, b) => a.idUser - b.idUser)
         this.spinner = false
       },
       error : (err) => {
