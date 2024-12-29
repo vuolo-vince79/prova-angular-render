@@ -70,7 +70,7 @@ export class AdminComponent implements OnInit{
     if(this.currentPage + 1 <= this.totalPages){
       this.currentPage++
       this.setDisplayedUsers()
-      if(this.currentPage < this.totalPages - 3){
+      if(this.currentPage < this.totalPages){
         this.setShowButtonArray()
       }
     }
@@ -80,6 +80,7 @@ export class AdminComponent implements OnInit{
       const startIndex = this.currentPage - 2
       const endIndex = startIndex + 3
       this.showButtonArray = this.arrayPages.slice(startIndex, endIndex)
+      console.log(this.showButtonArray)
   }
 
   getAllUsers(){
