@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of displayedUsers">
             <td>{{user.idUser}}</td>
             <td>{{user.username}}</td>
             <td>{{user.email}}</td>
@@ -27,6 +27,8 @@
         </tr>
     </tbody>
 </table>
+<button (click)="prevPage()" [disabled]="currentPage <= 1">Previous Page</button>
+<button (click)="nextPage()" [disabled]="currentPage >= totalPages">Next Page</button>
 <!-- <div *ngIf="showUsers">
     <div *ngFor="let user of users">
         <div>ID: {{user.idUser}}</div>

@@ -24,6 +24,11 @@ export class AdminComponent implements OnInit{
   userCount : number = 5
   spinner : boolean = false
   users : User[] = []
+  displayedUsers : User[] = []
+  currentPage : number = 1
+  rowsPerPage : number = 2
+  totalRecords : number = 0
+  totalPages : number = 0
   showUsers : boolean = false
 
   constructor(private authService : AuthService, 
@@ -35,6 +40,9 @@ export class AdminComponent implements OnInit{
     this.adminService.getAllUsers().subscribe({
       next : (resp : User[]) => {
         this.users = resp.sort((a, b) => a.idUser - b.idUser)
+        this.totalRecords = resp.length
+        this.totalPages = Math.ceil(resp.length / this.rowsPerPage)
+        this.setDisplayedUsers()
         this.spinner = false
       },
       error : (err) => {
@@ -43,8 +51,28 @@ export class AdminComponent implements OnInit{
     })
   }
 
+  prevPage(){
+    if(this.currentPage - 1 >= 1){
+      this.currentPage--
+      this.setDisplayedUsers()
+    }
+  }
+
+  nextPage(){
+    if(this.currentPage + 1 <= this.totalPages){
+      this.currentPage++
+      this.setDisplayedUsers()
+    }
+  }
+
   getAllUsers(){
     this.showUsers = true
+  }
+
+  setDisplayedUsers(){
+    const startIndex = (this.currentPage - 1) * this.rowsPerPage
+    const endIndex = startIndex + this.rowsPerPage
+    this.displayedUsers = this.users.slice(startIndex, endIndex)
   }
 
   getUserById(){
