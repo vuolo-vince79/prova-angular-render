@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit{
       this.tkApiService.getApiKey().subscribe({
         next : resp => {
           console.log(resp)
-          const strToJson = JSON.parse((resp as string).replace("\\", ""))
+          const strToJson = JSON.parse(resp.message)
           console.log(strToJson)
         },
         error : err => console.error("errore api key", err)
