@@ -101,7 +101,7 @@ export class AuthService {
 
   logout() {
     const username = this.username
-    this.http.post(`${this.url}/logout`, username).subscribe({
+    this.http.post(`${this.url}/api/auth/logout`, username).subscribe({
       next : resp => {
         console.log("response", resp)
         this.role = null
