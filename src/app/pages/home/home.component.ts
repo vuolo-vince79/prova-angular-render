@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { ApiTravianService } from '../../service/api-travian.service';
 import { map } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,9 @@ export class HomeComponent implements OnInit{
 
   username : string | null = this.authService.username
 
-  constructor(private authService : AuthService, private tkApiService : ApiTravianService){}
+  constructor(private authService : AuthService, 
+    private tkApiService : ApiTravianService,
+    private router : Router){}
 
   ngOnInit(): void {
       this.tkApiService.getApiKey().subscribe({
@@ -26,7 +29,16 @@ export class HomeComponent implements OnInit{
   }
   
     logout(){
-      this.authService.logout()
+      this.authService.logout().subscribe({
+        next : resp => {
+          console.log(resp)
+          this.authService.role = null
+          this.authService.username = null
+          sessionStorage.clear()
+          this.router.navigate(["/login"])
+        },
+        error : err => console.log("errore logout", err)
+      })
     }
 
 }

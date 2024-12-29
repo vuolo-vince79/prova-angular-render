@@ -99,7 +99,8 @@ export class AuthService {
     )
   }
 
-  logout() : void{
+  logout() : Observable<any>{
+    return this.http.post(`${this.url}/logout`, this.username)
     this.role = null
     this.username = null
     sessionStorage.clear()

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { AdminService } from '../../service/admin.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -13,7 +14,9 @@ export class AdminComponent{
   userCount : number = 5
   spinner : boolean = false
 
-  constructor(private authService : AuthService, private adminService : AdminService){}
+  constructor(private authService : AuthService, 
+    private adminService : AdminService,
+    private router : Router){}
 
   getAllUsers(){
     this.spinner = true
@@ -46,7 +49,16 @@ export class AdminComponent{
   }
 
   logout(){
-    this.authService.logout()
+    this.authService.logout().subscribe({
+      next : resp => {
+        console.log(resp)
+        this.authService.role = null
+        this.authService.username = null
+        sessionStorage.clear()
+        this.router.navigate(["/login"])
+      },
+      error : err => console.log("errore logout", err)
+    })
   }
 
 }
