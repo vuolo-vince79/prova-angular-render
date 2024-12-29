@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit{
   ngOnInit(): void {
       this.tkApiService.getApiKey().subscribe({
         next : resp => {
+          console.log(resp)
           const strToJson = JSON.parse(resp)
           console.log(strToJson)
         },
