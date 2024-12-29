@@ -16,7 +16,10 @@ export class HomeComponent implements OnInit{
 
   ngOnInit(): void {
       this.tkApiService.getApiKey().subscribe({
-        next : resp => console.log(resp),
+        next : resp => {
+          const strToJson = JSON.parse(resp)
+          console.log(strToJson)
+        },
         error : err => console.error("errore api key", err)
       })
   }
