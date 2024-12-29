@@ -29,5 +29,8 @@
 </table>
 <button (click)="prevPage()" [disabled]="currentPage <= 1">Previous Page</button>
 <button *ngFor="let page of showButtonArray index as i"
-    [ngStyle]="{backgroundColor : currentPage === page ? 'lime' : ''}">{{page}}</button>
+    [ngStyle]="{backgroundColor : currentPage === page ? 'lime' : ''}"
+    (click)="goToPage(page)">
+        {{page}}
+</button>
 <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Next Page</button>
