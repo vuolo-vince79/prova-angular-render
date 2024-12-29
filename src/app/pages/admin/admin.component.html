@@ -29,7 +29,7 @@
 </table>
 <button (click)="prevPage()" [disabled]="currentPage <= 1">Previous Page</button>
 <button *ngFor="let page of showButtonArray index as i"
-    [ngStyle]="{backgroundColor : page === i + 1 ? 'lime' : ''}">{{page}}</button>
+    [ngStyle]="{backgroundColor : currentPage === i + 1 ? 'lime' : ''}">{{page}}</button>
 <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Next Page</button>
 <!-- <div *ngIf="showUsers">
     <div *ngFor="let user of users">
