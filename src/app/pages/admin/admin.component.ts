@@ -73,7 +73,7 @@ export class AdminComponent implements OnInit{
   }
 
   setShowButtonArray(){
-    if(this.currentPage > 2  && this.currentPage < this.totalPages - 2){
+    if(this.currentPage > 1 && this.currentPage < this.totalPages - 3){
       const startIndex = this.currentPage - 2
       const endIndex = startIndex + 3
       this.showButtonArray = this.arrayPages.slice(startIndex, endIndex)
