@@ -40,10 +40,11 @@ export class AdminComponent implements OnInit{
   ngOnInit(): void {
     this.spinner = true
     this.adminService.getAllUsers().subscribe({
-      next : (resp : User[]) => {
-        this.users = resp.sort((a, b) => a.idUser - b.idUser)
-        this.totalRecords = resp.length
-        this.totalPages = Math.ceil(resp.length / this.rowsPerPage)
+      next : (resp : {message : User[], success : boolean}) => {
+        console.log("api response",resp)
+        this.users = resp.message.sort((a, b) => a.idUser - b.idUser)
+        this.totalRecords = resp.message.length
+        this.totalPages = Math.ceil(resp.message.length / this.rowsPerPage)
         this.setDisplayedUsers()
         this.arrayPages = Array(this.totalPages).fill(0).map((el, i) => i + 1)
         this.showButtonArray = this.arrayPages.slice(0, 5)
