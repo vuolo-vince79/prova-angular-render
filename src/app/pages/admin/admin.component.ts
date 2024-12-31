@@ -84,6 +84,7 @@ export class AdminComponent implements OnInit{
       const endIndex = startIndex + 5
       this.showButtonArray = this.arrayPages.slice(startIndex, endIndex)
     }
+    else this.showButtonArray = this.arrayPages.slice(0, 5)
   }
 
   getAllUsers(){
