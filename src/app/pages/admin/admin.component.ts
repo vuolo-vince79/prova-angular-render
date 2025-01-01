@@ -41,7 +41,7 @@ export class AdminComponent implements OnInit{
     this.spinner = true
     this.adminService.getAllUsers().subscribe({
       next : (resp : {message : User[], success : boolean}) => {
-        console.log("api response",resp)
+        console.log("api response dal backend",resp)
         this.users = resp.message.sort((a, b) => a.idUser - b.idUser)
         this.totalRecords = resp.message.length
         this.totalPages = Math.ceil(resp.message.length / this.rowsPerPage)
