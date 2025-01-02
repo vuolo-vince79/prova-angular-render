@@ -22,6 +22,13 @@ export class SetupService {
 
   constructor(private http : HttpClient) { }
 
+  getAllSetup(){
+    this.http.get(this.endpointUrl).subscribe({
+      next : resp => console.log("risposta ok tutti setup", resp),
+      error : err => console.log("errore richiesta setup", err)
+    })
+  }
+
   setLang(body : SetupLang){
     this.http.post(`${this.endpointUrl}/lang`, body).subscribe({
       next : resp => console.log("risposta da /api/set/lang", resp),

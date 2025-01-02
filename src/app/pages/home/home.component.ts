@@ -34,6 +34,10 @@ export class HomeComponent implements OnInit {
     this.setupService.setLang({token : this.authService.accessToken, lang : "en"})
   }
 
+  getAllSetup(){
+    this.setupService.getAllSetup()
+  }
+
 
   logout() {
     this.authService.logout()
