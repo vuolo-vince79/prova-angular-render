@@ -18,7 +18,7 @@ interface SetupTheme{
 })
 export class SetupService {
 
-  private readonly endpointUrl : string = RequestUrl + "/api/set"
+  private readonly endpointUrl : string = RequestUrl.dbUrl + "/api/set"
 
   constructor(private http : HttpClient) { }
 
