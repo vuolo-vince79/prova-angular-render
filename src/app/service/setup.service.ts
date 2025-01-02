@@ -24,7 +24,7 @@ export class SetupService {
 
   setLang(body : SetupLang){
     this.http.post(`${this.endpointUrl}/lang`, body).subscribe({
-      next : resp => console.log(resp),
+      next : resp => console.log("risposta da /api/set/lang", resp),
       error : err => console.log("errore aggiornamento lingua", err)
     })
   }
