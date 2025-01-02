@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, concatMap, map, Observable, of, throwError } from 'rxjs';
+import { RequestUrl } from '../enums/http-key';
 
 interface ApiResponse{
   message : {
@@ -19,7 +20,7 @@ interface ApiResponse{
 })
 export class AuthService {
 
-  private readonly url : string = "https://login-pr.up.railway.app"
+  private readonly url : string = RequestUrl.dbUrl
   private readonly accessTokenStorageKey = "accessToken"
   private readonly refreshTokenStorageKey = "refreshToken"
   private readonly roleStorageKey = "role"
@@ -86,14 +87,11 @@ export class AuthService {
   }
 
   refreshAccessToken(refreshToken : string) : Observable<string>{
-    console.log("ingresso chiamata del metodo refreshAccessTocken")
     return this.http.post<ApiResponse>(`${this.url}/api/auth/refresh`, refreshToken).pipe(
       map(resp => {
-        console.log("risposta richiesta nuovo refresh token", resp)
         return resp.message.accessToken
       }),
       catchError(err => {
-        console.error("errore nel reperire nuovo token", err)
         return throwError(() => new Error("errore nuovo yoken"))
       })
     )
