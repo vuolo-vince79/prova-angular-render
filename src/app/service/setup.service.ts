@@ -3,15 +3,13 @@ import { Injectable } from '@angular/core';
 import { RequestUrl } from '../enums/http-key';
 import { AuthService } from './auth.service';
 
-interface SetupLang{
+interface SetupUserDto{
   token : string,
-  lang : string
+  lang? : string,
+  isDark? : boolean
 }
 
-interface SetupTheme{
-  token : string,
-  isDark : boolean
-}
+
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +34,7 @@ export class SetupService {
     })
   }
 
-  setLang(body : SetupLang){
+  setLang(body : SetupUserDto){
     this.http.post(`${this.endpointUrl}/lang`, body).subscribe({
       next : resp => console.log("risposta da /api/set/lang", resp),
       error : err => console.log("errore aggiornamento lingua", err)
