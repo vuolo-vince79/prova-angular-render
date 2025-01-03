@@ -1,4 +1,8 @@
 <div class="container">
+    <div class="bordup">
+        <img src="../../../assets/img/teutobelze.png">
+        <div class="titlehead">BELZE ToolsK</div>
+    </div>
     <form [formGroup]="formLogin" (submit)="submit()">
         <div class="titleForm">LOGIN</div>
         <div class="itemForm">
@@ -11,9 +15,10 @@
             <input type="password" formControlName="psw">
             <p class="errors" *ngIf="errorPsw">invalid password</p>
         </div>
-        <button type="submit" [disabled]="!formLogin.valid">Login</button>
+        <button [ngClass]="{'disabled' : !formLogin.valid}" type="submit">Login</button>
     </form>
-    <button routerLink="/register">Go to Register</button>
+    <button class="goTo" routerLink="/register">Go to Register</button>
+    <div class="bordown"></div>
 </div>
 <div *ngIf="spinner"
     [ngStyle]="{position : 'absolute', top : '50%', left : '50%', transform : 'translate(-50%, -50%)'}">
