@@ -20,12 +20,19 @@ export class SetupService {
 
   private readonly endpointUrl : string = RequestUrl.dbUrl + "/api/set"
 
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient, private authervice : AuthService) { }
 
   getAllSetup(){
     this.http.get(this.endpointUrl).subscribe({
       next : resp => console.log("risposta ok tutti setup", resp),
       error : err => console.log("errore richiesta setup", err)
+    })
+  }
+
+  getSetupById(){
+    this.http.post(this.endpointUrl, this.authervice.accessToken).subscribe({
+      next : resp => console.log("risposta st by id", resp),
+      error : err => console.log("vacca madonna impestata", err)
     })
   }
 

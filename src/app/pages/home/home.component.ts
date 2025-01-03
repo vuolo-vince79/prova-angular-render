@@ -38,6 +38,10 @@ export class HomeComponent implements OnInit {
     this.setupService.getAllSetup()
   }
 
+  getSetupById(){
+    this.setupService.getSetupById()
+  }
+
 
   logout() {
     this.authService.logout()
